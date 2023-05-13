@@ -1,0 +1,110 @@
+class Car {
+
+    field int x;
+    field int y;
+    field boolean visible;
+    
+    
+    method int getX() {
+        return x;
+    }
+
+    method int getY() {
+        return y;
+    }
+    
+    constructor Car new(int Ax, int Ay, boolean vis) {
+        let x = Ax;
+        let y = Ay;
+
+        let visible = vis;
+        return this;
+    }
+
+    method void dispose() {
+      do Memory.deAlloc(this);
+      return;
+    }
+
+    method void moveRight(int n) {
+        if (x + n < CarGame.getCols()) {
+            let x = x + n;
+        }
+        return; 
+    }
+
+    method void moveLeft(int n) {
+        if (x - n > -1) {
+            let x = x - n;
+        }
+        return;
+    }
+
+    method void moveUp(int n){
+        if (y - n > -1) {
+            let y = y - n;
+        }
+        return;
+    }
+
+    method void moveDown(int n){
+        if (y + n < CarGame.getRows()) {
+            let y = y + n;
+        }
+        return;
+    }
+
+    method void draw(int location) {
+        var int memAddress;
+        let memAddress = 16384+location;
+        do Memory.poke(memAddress+0, 384);
+        do Memory.poke(memAddress+32, 960);
+        do Memory.poke(memAddress+64, 13260);
+        do Memory.poke(memAddress+96, 16380);
+        do Memory.poke(memAddress+128, 16380);
+        do Memory.poke(memAddress+160, 13260);
+        do Memory.poke(memAddress+192, 960);
+        do Memory.poke(memAddress+224, 960);
+        do Memory.poke(memAddress+256, 960);
+        do Memory.poke(memAddress+288, 960);
+        do Memory.poke(memAddress+320, 960);
+        do Memory.poke(memAddress+352, 960);
+        do Memory.poke(memAddress+384, 13260);
+        do Memory.poke(memAddress+416, 16380);
+        do Memory.poke(memAddress+448, 16380);
+        do Memory.poke(memAddress+480, 13260);
+        return;
+    }
+
+    method void unDraw(int location) {
+        var int memAddress;
+        let memAddress = 16384+location;
+        do Memory.poke(memAddress+0, 0);
+        do Memory.poke(memAddress+32, 0);
+        do Memory.poke(memAddress+64, 0);
+        do Memory.poke(memAddress+96, 0);
+        do Memory.poke(memAddress+128, 0);
+        do Memory.poke(memAddress+160, 0);
+        do Memory.poke(memAddress+192, 0);
+        do Memory.poke(memAddress+224, 0);
+        do Memory.poke(memAddress+256, 0);
+        do Memory.poke(memAddress+288, 0);
+        do Memory.poke(memAddress+320, 0);
+        do Memory.poke(memAddress+352, 0);
+        do Memory.poke(memAddress+384, 0);
+        do Memory.poke(memAddress+416, 0);
+        do Memory.poke(memAddress+448, 0);
+        do Memory.poke(memAddress+480, 0);
+        return;
+    }
+
+    method void drawCar() {
+        do draw(x + (y * 32 * 16));
+        return;
+    }
+
+    method void unDrawCar() {
+        do unDraw(x + (y * 32 * 16));
+        return;
+    }
+}

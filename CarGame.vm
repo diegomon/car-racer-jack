@@ -1,0 +1,366 @@
+function CarGame.new 0
+push constant 2
+call Memory.alloc 1
+pop pointer 0
+push constant 15
+push constant 15
+push constant 0
+not
+call Car.new 3
+pop this 0
+push constant 32
+pop static 0
+push constant 16
+pop static 1
+push constant 4
+pop static 2
+push static 2
+call Array.new 1
+pop this 1
+push pointer 0
+return
+function CarGame.dispose 0
+push argument 0
+pop pointer 0
+push this 0
+call Car.dispose 1
+pop temp 0
+push this 1
+call Array.dispose 1
+pop temp 0
+push pointer 0
+call Memory.deAlloc 1
+pop temp 0
+push constant 0
+return
+function CarGame.getCols 0
+push static 0
+return
+function CarGame.getRows 0
+push static 1
+return
+function CarGame.run 2
+push argument 0
+pop pointer 0
+push constant 0
+pop local 1
+push pointer 0
+call CarGame.initializeCars 1
+pop temp 0
+push this 0
+call Car.drawCar 1
+pop temp 0
+push constant 223
+push constant 0
+push constant 223
+push constant 255
+call Screen.drawLine 4
+pop temp 0
+push constant 272
+push constant 0
+push constant 272
+push constant 255
+call Screen.drawLine 4
+pop temp 0
+label WHILE_EXP0
+push local 1
+not
+not
+if-goto WHILE_END0
+push local 0
+push constant 0
+eq
+if-goto IF_TRUE0
+goto IF_FALSE0
+label IF_TRUE0
+call Keyboard.keyPressed 0
+pop local 0
+push pointer 0
+call CarGame.moveCars 1
+pop temp 0
+push this 0
+call Car.drawCar 1
+pop temp 0
+push pointer 0
+call CarGame.crashed 1
+if-goto IF_TRUE1
+goto IF_FALSE1
+label IF_TRUE1
+push constant 5
+call String.new 1
+push constant 99
+call String.appendChar 2
+push constant 114
+call String.appendChar 2
+push constant 97
+call String.appendChar 2
+push constant 115
+call String.appendChar 2
+push constant 104
+call String.appendChar 2
+call Output.printString 1
+pop temp 0
+call Output.println 0
+pop temp 0
+label IF_FALSE1
+label IF_FALSE0
+push local 0
+push constant 81
+eq
+if-goto IF_TRUE2
+goto IF_FALSE2
+label IF_TRUE2
+push constant 0
+not
+pop local 1
+label IF_FALSE2
+push local 0
+push constant 130
+eq
+if-goto IF_TRUE3
+goto IF_FALSE3
+label IF_TRUE3
+push this 0
+call Car.getX 1
+push constant 14
+gt
+if-goto IF_TRUE4
+goto IF_FALSE4
+label IF_TRUE4
+push this 0
+call Car.unDrawCar 1
+pop temp 0
+push this 0
+push constant 1
+call Car.moveLeft 2
+pop temp 0
+push this 0
+call Car.drawCar 1
+pop temp 0
+label IF_FALSE4
+label IF_FALSE3
+push local 0
+push constant 132
+eq
+if-goto IF_TRUE5
+goto IF_FALSE5
+label IF_TRUE5
+push this 0
+call Car.getX 1
+push constant 16
+lt
+if-goto IF_TRUE6
+goto IF_FALSE6
+label IF_TRUE6
+push this 0
+call Car.unDrawCar 1
+pop temp 0
+push this 0
+push constant 1
+call Car.moveRight 2
+pop temp 0
+push this 0
+call Car.drawCar 1
+pop temp 0
+label IF_FALSE6
+label IF_FALSE5
+label WHILE_EXP1
+push local 0
+push constant 0
+eq
+not
+not
+if-goto WHILE_END1
+call Keyboard.keyPressed 0
+pop local 0
+push pointer 0
+call CarGame.moveCars 1
+pop temp 0
+push this 0
+call Car.drawCar 1
+pop temp 0
+push pointer 0
+call CarGame.crashed 1
+if-goto IF_TRUE7
+goto IF_FALSE7
+label IF_TRUE7
+push constant 5
+call String.new 1
+push constant 99
+call String.appendChar 2
+push constant 114
+call String.appendChar 2
+push constant 97
+call String.appendChar 2
+push constant 115
+call String.appendChar 2
+push constant 104
+call String.appendChar 2
+call Output.printString 1
+pop temp 0
+call Output.println 0
+pop temp 0
+label IF_FALSE7
+goto WHILE_EXP1
+label WHILE_END1
+goto WHILE_EXP0
+label WHILE_END0
+push constant 0
+return
+function CarGame.initializeCars 2
+push argument 0
+pop pointer 0
+push constant 0
+pop local 0
+label WHILE_EXP0
+push local 0
+push static 2
+lt
+not
+if-goto WHILE_END0
+push local 0
+push this 1
+add
+push constant 14
+push constant 2
+call Random.randRange 1
+add
+push constant 0
+push local 0
+push constant 4
+call Math.multiply 2
+add
+push constant 0
+call Car.new 3
+pop temp 0
+pop pointer 1
+push temp 0
+pop that 0
+push local 0
+push constant 1
+add
+pop local 0
+goto WHILE_EXP0
+label WHILE_END0
+push constant 0
+pop local 0
+label WHILE_EXP1
+push local 0
+push static 2
+lt
+not
+if-goto WHILE_END1
+push local 0
+push this 1
+add
+pop pointer 1
+push that 0
+pop local 1
+push local 1
+call Car.drawCar 1
+pop temp 0
+push local 0
+push constant 1
+add
+pop local 0
+goto WHILE_EXP1
+label WHILE_END1
+push constant 0
+return
+function CarGame.moveCars 2
+push argument 0
+pop pointer 0
+push constant 0
+pop local 0
+label WHILE_EXP0
+push local 0
+push static 2
+lt
+not
+if-goto WHILE_END0
+push local 0
+push this 1
+add
+pop pointer 1
+push that 0
+pop local 1
+push local 1
+call Car.unDrawCar 1
+pop temp 0
+push local 1
+call Car.getY 1
+push constant 15
+eq
+if-goto IF_TRUE0
+goto IF_FALSE0
+label IF_TRUE0
+push local 1
+push static 1
+push constant 1
+sub
+call Car.moveUp 2
+pop temp 0
+goto IF_END0
+label IF_FALSE0
+push local 1
+push constant 1
+call Car.moveDown 2
+pop temp 0
+label IF_END0
+push local 1
+call Car.drawCar 1
+pop temp 0
+push local 0
+push constant 1
+add
+pop local 0
+goto WHILE_EXP0
+label WHILE_END0
+push constant 50
+call Sys.wait 1
+pop temp 0
+push constant 0
+return
+function CarGame.crashed 2
+push argument 0
+pop pointer 0
+push constant 0
+pop local 0
+label WHILE_EXP0
+push local 0
+push static 2
+lt
+not
+if-goto WHILE_END0
+push local 0
+push this 1
+add
+pop pointer 1
+push that 0
+pop local 1
+push this 0
+call Car.getX 1
+push local 1
+call Car.getX 1
+eq
+push this 0
+call Car.getY 1
+push local 1
+call Car.getY 1
+eq
+and
+if-goto IF_TRUE0
+goto IF_FALSE0
+label IF_TRUE0
+push constant 0
+not
+return
+label IF_FALSE0
+push local 0
+push constant 1
+add
+pop local 0
+goto WHILE_EXP0
+label WHILE_END0
+push constant 0
+return

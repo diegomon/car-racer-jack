@@ -1,0 +1,29 @@
+    method void testMoves() {
+        var int x, y; 
+        var Car car1;
+        let x = 0;
+        let car1 = Car.new(0, 0);
+        while (x < 32) {
+            let y = 0;
+            while (y < 256) {
+                do car1.unDrawCar();
+                do car1.moveDown();
+                do car1.drawCar();
+                let y = y + 1;
+                do Sys.wait(5);
+            }
+            let y = 0;
+            while (y < 256) {
+                do car1.unDrawCar();
+                do car1.moveUp();
+                do car1.drawCar();
+                let y = y + 1;
+            }
+            do car1.unDrawCar();
+            do car1.moveRight();
+            do car1.drawCar();
+            let x = x + 1;
+        }
+        do car1.dispose();
+        return;
+    }

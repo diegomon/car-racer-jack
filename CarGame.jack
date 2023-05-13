@@ -1,0 +1,146 @@
+class CarGame {
+
+    field Car car;
+    field Array cars;
+    static int cols;
+    static int rows;
+    static int cars_number;
+
+    constructor CarGame new() {
+        let car = Car.new(15, 15, true);
+        let cols = 32;
+        let rows = 16;
+        let cars_number = 4;
+        let cars = Array.new(cars_number);
+        return this;
+    }
+
+    method void dispose() {
+        do car.dispose();
+        do cars.dispose();
+        do Memory.deAlloc(this);
+        return;
+    }
+
+    function int getCols() {
+        return cols;
+    }
+
+    function int getRows() {
+        return rows;
+    }
+    method void run() {
+        var char key;
+        var boolean exit;
+        let exit = false;
+        do initializeCars();
+        do car.drawCar();
+        do Screen.drawLine(223, 0, 223, 255);
+        do Screen.drawLine(272, 0, 272, 255);
+        while (~exit) {
+            
+            // wait until a key is pressed
+            if (key = 0) {
+                let key = Keyboard.keyPressed();
+                do moveCars();
+                do car.drawCar();
+                if (crashed()) {
+                    do Output.printString("crash");
+                    do Output.println();
+                }
+            }
+            if (key = 81) { let exit = true; }
+            if (key = 130) {
+                if (car.getX() > 14) {
+                    do car.unDrawCar();
+                    do car.moveLeft(1); 
+                    do car.drawCar();
+                }
+                } // left
+            if (key = 132) {
+                if (car.getX() < 16) {
+                    do car.unDrawCar();
+                    do car.moveRight(1);
+                    do car.drawCar();
+                }
+                } // right
+            /*
+            if (key = 131) {
+                do car.unDrawCar();
+                do car.moveUp(1);
+                do car.drawCar();
+            }
+            if (key = 133) {
+                do car.unDrawCar();
+                do car.moveDown(1);
+                do car.drawCar();
+            }
+            */
+
+            // waits for the key to be released
+            while (~(key = 0)) {
+                let key = Keyboard.keyPressed();
+                do moveCars();
+                do car.drawCar();
+                if (crashed()) {
+                    do Output.printString("crash");
+                    do Output.println();
+                }
+            }    
+        }
+        return;
+    }
+
+    method void initializeCars() {
+        var int i;
+        var Car xCar;
+        let i = 0;
+
+        while (i < cars_number) {
+            let cars[i] = Car.new(14 + Random.randRange(2), 0 + (i*4), false);
+            let i = i + 1;
+        }
+        let i = 0;
+        while (i < cars_number) {
+            let xCar = cars[i];
+            do xCar.drawCar();
+            let i = i + 1;
+        }
+        return;
+
+    }
+
+    method void moveCars() {
+        var int i;
+        var Car xCar;
+        let i = 0;
+        while (i < cars_number) {
+            let xCar = cars[i];
+            do xCar.unDrawCar();
+            if (xCar.getY() = 15) {
+                do xCar.moveUp(rows-1);
+            } else {
+                do xCar.moveDown(1);
+            }
+            do xCar.drawCar();
+            let i = i + 1;
+        }
+        do Sys.wait(50);
+
+        return;
+    }
+
+    method boolean crashed() {
+        var int i;
+        var Car xCar;
+        let i = 0;
+        while (i < cars_number) {
+            let xCar = cars[i];
+            if ((car.getX() = xCar.getX()) & (car.getY() = xCar.getY())) {
+                return true;
+            }
+            let i = i + 1;
+        }
+        return false;
+    }
+}
